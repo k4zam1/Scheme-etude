@@ -277,12 +277,23 @@
 (define (primitive-implementation proc) (cadr proc))
 (define primitive-procedures
 	(list
+		(list '+ +)
+		(list '- -)
+		(list '* *)
+		(list '/ /)
+		(list 'abs abs)
+		(list 'quotient quotient)
+		(list 'remainder remainder)
+		(list 'modulo modulo)
+		(list 'div div)
+		(list 'mod mod)
 		(list 'car car)
 		(list 'cdr cdr)
 		(list 'cons cons)
 		(list 'null? null?)
 		(list 'pair? pair?)
 		(list 'list list)
+		(list 'list? list?)
 		(list 'cons cons)
 		(list 'eq? eq?)
 	)
@@ -371,7 +382,7 @@
 		;; 関数適用
 		;; 演算子(operator)と被演算子(operand)を再帰的に評価する
 		((application? exp)
-			(apply
+			(my-apply
 				(eval (operator exp) env)
 				;; exp := (2+3) * (3+5)
 				;; このとき (2+3),(3+5)がoperandsとなり
@@ -398,7 +409,7 @@
 ;; if文
 (define (list-of-values exps env)
 	(if (no-operands? exps)
-		null
+		'()
 		(cons
 			;; evalに投げることで再帰的に評価が行われ
 			;; 基本的な数値のみがlist-of-valuesの要素となる
