@@ -1,0 +1,56 @@
+(define-module procedure_base
+	(export-all)
+)
+(select-module procedure_base)
+(add-load-path "." :relative)
+(use base_utils)
+
+;; 合成手続き
+;; 合成手続きを作成する
+(define (make-procedure parameters body env)
+	(list 'procedure parameters body env)
+)
+(define (compound-procedure? p)
+	(tagged-list? p 'procedure)
+)
+(define (procedure-parameters p) (cadr p))
+(define (procedure-body p) (caddr p))
+(define (procedure-environment p) (caddr p))
+
+;; 基本手続き
+(define (primitive-procedure? proc)
+	(tagged-list? proc 'primitive)
+)
+(define (primitive-implementation proc) (cadr proc))
+(define primitive-procedures
+	(list
+		(list '+ +)
+		(list '- -)
+		(list '* *)
+		(list '/ /)
+		(list 'abs abs)
+		(list 'quotient quotient)
+		(list 'remainder remainder)
+		(list 'modulo modulo)
+		(list 'div div)
+		(list 'mod mod)
+		(list 'car car)
+		(list 'cdr cdr)
+		(list 'cons cons)
+		(list 'null? null?)
+		(list 'pair? pair?)
+		(list 'list list)
+		(list 'list? list?)
+		(list 'cons cons)
+		(list 'eq? eq?)
+	)
+)
+(define (primitive-procedure-names)
+	(map car primitive-procedures)
+)
+(define (primitive-procedure-objects)
+	(map
+		(lambda (proc) (list 'primitive (cadr proc)))
+		primitive-procedures
+	)
+)
