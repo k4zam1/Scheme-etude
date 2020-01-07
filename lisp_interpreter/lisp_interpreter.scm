@@ -1,7 +1,6 @@
 #!/usr/local/bin/gosh
 ;; -*- coding: utf-8 -*-
 (add-load-path "." :relative)
-(use base_utils)
 (use eval_base)
 (use env_base)
 (use procedure_base)
