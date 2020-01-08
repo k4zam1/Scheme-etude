@@ -1,3 +1,5 @@
+; % clisp -i guess_my_number.lisp
+; % [1] > (start-over)
 (defun guess-my-number()
     (ash (+ *small* *big*) -1))
 (defun smaller()
