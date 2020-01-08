@@ -23,11 +23,3 @@
 * SetUtils(set基本操作の実装)
   * ファイル set_utils.rkt
   * 環境: DrRackt
-
-## Licence
-
-[MIT](https://github.com/tcnksm/tool/blob/master/LICENCE)
-
-## Author
-
-[tcnksm](https://github.com/tcnksm)
