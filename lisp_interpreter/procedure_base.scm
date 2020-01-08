@@ -43,6 +43,7 @@
 		(list 'list? list?)
 		(list 'cons cons)
 		(list 'eq? eq?)
+	 	(list 'lambda lambda)
 	)
 )
 (define (primitive-procedure-names)
