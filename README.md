@@ -1,5 +1,5 @@
 # Scheme-etude
-主にSICPによるコード群
+SICP,LOLなどによるコード群
 
 ## Overview
 * Lisp解釈系
