@@ -10,13 +10,14 @@
     (attic (living-room downstairs ladder)))
 )
 (defparameter *objects* '(whiskey bucket frog chain))
-(defparameter *objects-location* '(
+(defparameter *object-locations* '(
     (whiskey living-room)
     (bucket living-room)
     (chain garden)
     (frog garden)
 ))
 (defparameter *location* 'living-room)
+(defparameter *allowed-commands* '(look walk pickup inventory))
 
 (defun describe-location (location nodes)
     (cadr (assoc location nodes)))
@@ -45,6 +46,89 @@
     (append
         (describe-location *location* *nodes*)
         (describe-paths *location* *edges*)
-        (describe-objects *location* *objects* *objects-location*)
+        (describe-objects *location* *objects* *object-locations*)
     )
 )
+
+(defun walk (direction)
+    (defvar choice-of-direction (cdr (assoc *location* *edges*)))
+    (let
+        ; keyをcadrにもつような要素がchoice-of-directionにあるか
+        ; あるならそれをnextとする
+        ((next (find direction choice-of-direction  :key #'cadr)))
+        (if next
+            ; then
+            (progn (setf *location* (car next)) (look))
+            ; else
+            '(you cannot go that way.)
+        )
+    )
+)
+
+(defun pickup (object)
+    (cond
+        ((member object (objects-at *location* *objects* *object-locations*))
+            ; then
+            ; *object-locations*に(whiskey body)などとpushする
+            ; (手に持っている -> locationはbodyとなる)
+            (push (list object 'body) *object-locations*) `(you are now carring the ,object))
+        (t '(you cannot get that.))
+    )
+)
+
+(defun inventory ()
+    (cons 'items-- (objects-at 'body *objects* *object-locations*))
+)
+
+
+; game repl
+(defun game-read ()
+    (princ "> ")
+    (let ((cmd (read-from-string (concatenate 'string "(" (read-line) ")"))))
+        (flet ((quote-it (x)
+            (list 'quote)))
+            (cons (car cmd) (mapcar #'quote-it (cdr cmd))))
+    )
+)
+; sexp ::= <allowed-command> <arg>
+(defun game-eval (sexp)
+    (if (member (car sexp) *allowed-commands*)
+        (eval sexp)
+        '(i do not know that command.)    
+    )
+)
+(defun tweak-text (lst caps lit)
+    (when lst
+        (let
+            ((item (car lst))
+            (rest (cdr lst)))
+            (cond ((eql item #\space) (cons item (tweak-text rest caps lit)))
+                ((member item '(#\! #\? #\.)) (cons item (tweak-text rest t lit)))
+                ((eql item #\") (tweak-text rest caps (not lit)))
+                (lit (cons item (tweak-text rest nil lit)))
+                (caps (cons (char-upcase item) (tweak-text rest nil lit)))
+                (t (cons (char-downcase item) (tweak-text rest nil nil)))
+            )
+        )
+    )
+)
+(defun game-print (lst)
+    (princ (coerce (tweak-text (coerce (string-trim "() "
+                                        (prin1-to-string lst))
+                                'list)
+                    t
+                    nil)
+            'string))
+    (fresh-line)
+)
+
+(defun game-repl ()
+    (let ((cmd (game-read)))
+        (unless (eq (car cmd) 'quit)
+            (game-print (game-eval cmd))
+            (game-repl)
+        )
+    )
+)
+
+(game-repl)
