@@ -23,3 +23,8 @@
 * SetUtils(set基本操作の実装)
   * ファイル set_utils.rkt
   * 環境: DrRackt
+
+
+## References
+* Harold Abelson, Gerald Jay Sussman, Julie Sussman 『計算機プログラムの構造と解釈』
+* Conrad Barski, M.D 『Land of Lisp』
