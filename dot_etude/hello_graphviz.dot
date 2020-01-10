@@ -1,0 +1,4 @@
+// show : Ctrl+Shift+V
+digraph {
+    a->b;
+}
