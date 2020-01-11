@@ -23,7 +23,9 @@ SICP,LOLなどによるコード群
 * SetUtils(set基本操作の実装)
   * ファイル set_utils.rkt
   * 環境: DrRackt
-
+* テキストベースゲーム
+  * ファイル textgame.lisp
+  * 環境 clisp 2.49+
 
 ## References
 * Harold Abelson, Gerald Jay Sussman, Julie Sussman 『計算機プログラムの構造と解釈』
