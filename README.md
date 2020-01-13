@@ -1,6 +1,6 @@
 # Scheme-etude
 SICP,LOLなどによるコード群
-<img width="794" alt="スクリーンショット 2020-01-14 2 00 18" src="https://user-images.githubusercontent.com/56730772/72275769-ea665200-3671-11ea-996e-9bcd613da3cc.png">
+<img width="500" alt="evolution.py" src="https://user-images.githubusercontent.com/56730772/72275769-ea665200-3671-11ea-996e-9bcd613da3cc.png">
 
 
 ## Overview
