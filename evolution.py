@@ -128,8 +128,8 @@ def draw_world():
 	for v in view :
 		write(v)
 		flush()
-	print("-"*width,end="  ")
-	print("DAY : ",day)
+	print("-"*width)
+	print("DAY:{},PLANTS:{},ANIMALS:{}".format(day,len(plants),len(animals)))
 
 
 
