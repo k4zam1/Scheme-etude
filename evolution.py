@@ -5,13 +5,15 @@ from random import randint
 from copy import deepcopy
 
 width = 100
-height = 30
-jungle = [45,10,10,10]
-plant_energy = 15
+height = 25
+jungle = [25,10,10,10]
+plant_energy = 20
 reproduction_energy = 10
 plants = set()
 animals = []
 day = 0
+sym_animal = "M"
+sym_plant = "*"
 
 def random_plant(left,top,width,height):
 	x = (left+randint(1,width))
@@ -50,7 +52,7 @@ class Animal:
 			self.y += 1
 		
 		self.x = self.x % (width-1)
-		self.y = self.y % (height-1)
+		self.y = self.y % (height)
 		self.energy -= 1
 	
 	def turn(self):
@@ -101,7 +103,7 @@ def update_world():
 		animals[i].turn()
 		animals[i].move()
 		animals[i].eat()
-		if day%2 == 0:
+		if day%1 == 0:
 			animals[i].reproduce()
 	
 	add_plant()
@@ -116,12 +118,12 @@ def draw_world():
 	view = [row for _ in range(height)]
 
 	for animal in animals :
-		view[animal.y] = view[animal.y][:animal.x+1] + '🐘' + view[animal.y][animal.x+2:]
+		view[animal.y] = view[animal.y][:animal.x+1] + sym_animal + view[animal.y][animal.x+2:]
 
 	for plant in plants :
 		x,y = plant
 		#print(plant)
-		view[y-1] = view[y-1][:x] + "🌿" + view[y-1][x+1:]
+		view[y-1] = view[y-1][:x] + sym_plant + view[y-1][x+1:]
 	
 	for v in view :
 		write(v)
@@ -130,10 +132,11 @@ def draw_world():
 	print("DAY : ",day)
 
 
+
 def main():
 	os.system("clear")
 	adam_genes = [randint(0, 10) for i in range(8)]
-	adam = Animal(int(width/2),int(height/2),60,0,adam_genes)
+	adam = Animal(int(width/2),int(height/2),80,0,adam_genes)
 	animals.append(adam)
 
 	while True :
@@ -142,7 +145,7 @@ def main():
 			print("絶滅してしまいました")
 			break
 		update_world()
-		sleep(.5)
+		sleep(.2)
 
 
 if __name__ == "__main__":
